@@ -1,7 +1,15 @@
 'use strict';
 
-import DID_API from './api.json' assert { type: 'json' };
-if (DID_API.key == '🤫') alert('Please put your api key inside ./api.json and restart..')
+async function loadJson() {
+  const response = await fetch('./api.json');
+  return response.json();
+}
+
+const DID_API = await loadJson();
+
+if (DID_API.key == '🤫') {
+  alert('Please put your api key inside ./api.json and restart..');
+}
 
 const RTCPeerConnection = (window.RTCPeerConnection || window.webkitRTCPeerConnection || window.mozRTCPeerConnection).bind(window);
 
@@ -29,9 +37,10 @@ connectButton.onclick = async () => {
 
   const sessionResponse = await fetch(`${DID_API.url}/talks/streams`, {
     method: 'POST',
-    headers: {'Authorization': `Basic ${DID_API.key}`, 'Content-Type': 'application/json'},
+    headers: {'Authorization': `Basic ZXJkZWVudGVycHJpc2VAZ21haWwuY29t:Bc5gn9-jEQO4PAwFkJPl1`, 'Content-Type': 'application/json'},
     body: JSON.stringify({
-      source_url: "https://cdn.midjourney.com/075b85f5-fe25-4cbd-9680-9655ce2bd8b7/0_1.png"
+      source_url: "https://i.imgur.com/vTCQ6mK.png",
+      stream_warmup: "false"
     }),
   });
 
@@ -70,7 +79,7 @@ talkButton.onclick = async () => {
           script: {
             type: 'text',
             subtitles: 'false',
-            provider: { type: 'microsoft', voice_id: 'en-US-ChristopherNeural' },
+            provider: { type: 'microsoft', voice_id: 'pt-BR-MacerioMultilingualNeural' },
             ssml: true,
             input: userInput // Use the user input as the input value
           },
